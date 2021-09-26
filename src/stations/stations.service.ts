@@ -32,4 +32,11 @@ export class StationsService {
   async updateOne(id: number, patchStationDto: PatchStationDto): Promise<Station> {
     return this.stationsRepository.updateOne(id, patchStationDto);
   }
+
+  async deleteOne(id: number): Promise<void> {
+    const result = await this.stationsRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Could not find fuel station with id: ${id}`);
+    }
+  }
 }

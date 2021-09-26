@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe } from '@nestjs/common';
 import { CreateStationDto } from './dto/create-station.dto';
 import { PatchStationDto } from './dto/patch-station.dto';
 import { Station } from './model.entity';
@@ -19,12 +19,20 @@ export class StationsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<Station> {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Station> {
     return this.stationsService.findOne(+id);
   }
 
   @Patch(':id')
-  async updateOne(@Param('id') id: string, @Body(ValidationPipe) patchStationDto: PatchStationDto): Promise<Station> {
-    return this.stationsService.updateOne(+id, patchStationDto);
+  async updateOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(ValidationPipe) patchStationDto: PatchStationDto,
+  ): Promise<Station> {
+    return this.stationsService.updateOne(id, patchStationDto);
+  }
+
+  @Delete(':id')
+  async deleteOne(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.stationsService.deleteOne(id);
   }
 }
