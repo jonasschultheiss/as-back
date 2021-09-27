@@ -14,7 +14,7 @@ export class PricesService {
 
   async getOrCreate(createPriceDto: CreatePriceDto): Promise<Price> {
     const { price } = createPriceDto;
-    const found = this.pricesRepository.findOne(price);
+    const found = await this.pricesRepository.findOne(price);
     if (found) {
       return found;
     } else {

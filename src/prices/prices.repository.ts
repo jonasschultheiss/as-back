@@ -26,15 +26,21 @@ export class PricesRepository extends Repository<Price> {
   }
 
   async updateOne(patchPriceDto: PatchPriceDto): Promise<Price> {
-    const { price: cost } = patchPriceDto;
+    const { oldPrice, newPrice } = patchPriceDto;
 
-    const price = await this.findOne(cost);
+    const newAlreadyExists = await this.findOne(newPrice);
+    if (newAlreadyExists) {
+      return newAlreadyExists;
+    }
+
+    const price = await this.findOne(oldPrice);
+
     if (!price) {
       throw new NotFoundException();
     }
 
-    if (cost) {
-      price.price = cost;
+    if (newPrice) {
+      price.price = newPrice;
     }
 
     try {

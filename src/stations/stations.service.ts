@@ -39,7 +39,13 @@ export class StationsService {
   }
 
   async updateOne(id: number, patchStationDto: PatchStationDto): Promise<Station> {
-    return this.stationsRepository.updateOne(id, patchStationDto);
+    const { prices: inputPrices } = patchStationDto;
+    const prices: Price[] = [];
+    for await (const price of inputPrices) {
+      prices.push(await this.pricesService.updateOne(price));
+    }
+
+    return this.stationsRepository.updateOne(id, patchStationDto, prices);
   }
 
   async deleteOne(id: number): Promise<void> {
