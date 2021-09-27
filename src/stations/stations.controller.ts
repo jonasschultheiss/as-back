@@ -1,9 +1,22 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  UseGuards,
+  ValidationPipe,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CreateStationDto } from './dto/create-station.dto';
 import { PatchStationDto } from './dto/patch-station.dto';
 import { Station } from './model.entity';
 import { StationsService } from './stations.service';
 
+@UseGuards(AuthGuard('api-key'))
 @Controller('stations')
 export class StationsController {
   constructor(private readonly stationsService: StationsService) {}
