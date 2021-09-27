@@ -8,4 +8,8 @@ export class CreatePriceDto {
   @IsString()
   @IsNotEmpty()
   readonly currency: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly product_id: string;
 }

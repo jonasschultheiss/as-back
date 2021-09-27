@@ -1,10 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreatePriceDto } from 'src/prices/dto/create-price.dto';
 import { Price } from 'src/prices/price.entity';
 import { PricesService } from 'src/prices/prices.service';
-import { CreateProductDto } from 'src/products/dto/create-product.dto';
-import { Product } from 'src/products/product.entity';
 import { ProductsService } from 'src/products/products.service';
 import { CreateStationDto } from './dto/create-station.dto';
 import { PatchStationDto } from './dto/patch-station.dto';
@@ -17,31 +14,13 @@ export class StationsService {
     @InjectRepository(StationsRepository)
     private readonly stationsRepository: StationsRepository,
     private readonly pricesService: PricesService,
-    private readonly productsSersvice: ProductsService,
+    private readonly productsService: ProductsService,
   ) {}
-
-  private async getOrCreatePrices(inputPrices: CreatePriceDto[]): Promise<Price[]> {
-    const prices: Price[] = [];
-    for await (const price of inputPrices) {
-      prices.push(await this.pricesService.getOrCreate(price));
-    }
-
-    return prices;
-  }
-
-  private async getOrCreateProducts(inputProducts: CreateProductDto[]): Promise<Product[]> {
-    const products: Product[] = [];
-    for await (const product of inputProducts) {
-      products.push(await this.productsSersvice.getOrCreate(product));
-    }
-
-    return products;
-  }
 
   async create(createStationDto: CreateStationDto): Promise<Station> {
     const { prices: inputPrices, products: inputProducts } = createStationDto;
-    const prices = await this.getOrCreatePrices(inputPrices);
-    const products = await this.getOrCreateProducts(inputProducts);
+    const prices = await this.pricesService.getOrCreatePrices(inputPrices);
+    const products = await this.productsService.getOrCreateProducts(inputProducts);
 
     return this.stationsRepository.createStation(createStationDto, prices, products);
   }

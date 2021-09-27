@@ -7,11 +7,12 @@ import { Price } from './price.entity';
 @EntityRepository(Price)
 export class PricesRepository extends Repository<Price> {
   async createPrice(createPriceDto: CreatePriceDto): Promise<Price> {
-    const { price: cost, currency } = createPriceDto;
+    const { price: cost, currency, product_id } = createPriceDto;
 
     const price = new Price();
     price.price = cost;
     price.currency = currency;
+    price.product_id = product_id;
 
     try {
       await price.save();

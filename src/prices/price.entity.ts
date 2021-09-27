@@ -9,6 +9,9 @@ export class Price extends BaseEntity {
   @Column()
   currency: string;
 
+  @Column()
+  product_id: string;
+
   @ManyToOne(() => Station, station => station.prices)
   station: Station;
 }

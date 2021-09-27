@@ -12,7 +12,16 @@ export class PricesService {
     private readonly pricesRepository: PricesRepository,
   ) {}
 
-  async getOrCreate(createPriceDto: CreatePriceDto): Promise<Price> {
+  async getOrCreatePrices(inputPrices: CreatePriceDto[]): Promise<Price[]> {
+    const prices: Price[] = [];
+    for await (const price of inputPrices) {
+      prices.push(await this.getOrCreate(price));
+    }
+
+    return prices;
+  }
+
+  private async getOrCreate(createPriceDto: CreatePriceDto): Promise<Price> {
     const { price } = createPriceDto;
     const found = await this.pricesRepository.findOne(price);
     if (found) {
