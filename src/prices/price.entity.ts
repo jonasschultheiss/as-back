@@ -12,6 +12,6 @@ export class Price extends BaseEntity {
   @Column()
   product_id: string;
 
-  @ManyToOne(() => Station, station => station.prices)
+  @ManyToOne(() => Station, station => station.prices, { onDelete: 'SET NULL', cascade: true })
   station: Station;
 }

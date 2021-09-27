@@ -7,7 +7,7 @@ export class Product extends BaseEntity {
   @PrimaryColumn()
   product_id: string;
 
-  @ManyToOne(() => Station, station => station.products)
+  @ManyToOne(() => Station, station => station.products, { onDelete: 'CASCADE', cascade: true })
   station: Station;
 
   @OneToMany(() => Point, point => point.product, { eager: true })

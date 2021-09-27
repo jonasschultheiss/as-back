@@ -10,6 +10,6 @@ export class Point extends BaseEntity {
   @Column()
   status: Availability;
 
-  @ManyToOne(() => Product, product => product.points)
+  @ManyToOne(() => Product, product => product.points, { onDelete: 'CASCADE', cascade: true })
   product: Product;
 }
