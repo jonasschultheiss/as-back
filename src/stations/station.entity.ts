@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Price } from 'src/prices/price.entity';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 @Entity('stations')
 @Unique(['id'])
@@ -20,4 +21,7 @@ export class Station extends BaseEntity {
 
   @Column('float8')
   longitude: number;
+
+  @OneToMany(() => Price, price => price.station)
+  prices: Price[];
 }

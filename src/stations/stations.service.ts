@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Price } from 'src/prices/price.entity';
+import { PricesService } from 'src/prices/prices.service';
 import { CreateStationDto } from './dto/create-station.dto';
 import { PatchStationDto } from './dto/patch-station.dto';
-import { Station } from './model.entity';
+import { Station } from './station.entity';
 import { StationsRepository } from './stations.repository';
 
 @Injectable()
@@ -10,10 +12,17 @@ export class StationsService {
   constructor(
     @InjectRepository(StationsRepository)
     private readonly stationsRepository: StationsRepository,
+    private readonly pricesService: PricesService,
   ) {}
 
   async create(createStationDto: CreateStationDto): Promise<Station> {
-    return this.stationsRepository.createStation(createStationDto);
+    const { prices: inputPrices } = createStationDto;
+    const prices: Price[] = [];
+    for await (const price of inputPrices) {
+      prices.push(await this.pricesService.getOrCreate(price));
+    }
+
+    return this.stationsRepository.createStation(createStationDto, prices);
   }
 
   async findAll(): Promise<Station[]> {

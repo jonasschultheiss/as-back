@@ -1,4 +1,5 @@
-import { IsLatitude, IsLongitude, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsArray, IsLatitude, IsLongitude, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { CreatePriceDto } from 'src/prices/dto/create-price.dto';
 
 export class CreateStationDto {
   @IsString()
@@ -20,4 +21,7 @@ export class CreateStationDto {
   @IsLongitude()
   @IsNumber()
   readonly longitude: number;
+
+  @IsArray()
+  readonly prices: CreatePriceDto[];
 }
