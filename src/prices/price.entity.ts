@@ -3,7 +3,7 @@ import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 
 @Entity('prices')
 export class Price extends BaseEntity {
-  @PrimaryColumn('money')
+  @PrimaryColumn({ type: 'numeric' })
   price: number;
 
   @Column()

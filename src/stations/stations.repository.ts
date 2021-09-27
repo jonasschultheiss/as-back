@@ -26,7 +26,7 @@ export class StationsRepository extends Repository<Station> {
     }
   }
 
-  async updateOne(id: number, patchStationDto: PatchStationDto): Promise<Station> {
+  async updateOne(id: number, patchStationDto: PatchStationDto, prices: Price[]): Promise<Station> {
     const { name } = patchStationDto;
     const station = await this.findOne(id);
     if (!station) {
@@ -36,6 +36,8 @@ export class StationsRepository extends Repository<Station> {
     if (name) {
       station.name = name;
     }
+
+    station.prices = prices;
 
     try {
       await station.save();

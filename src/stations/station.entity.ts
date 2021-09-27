@@ -22,6 +22,6 @@ export class Station extends BaseEntity {
   @Column('float8')
   longitude: number;
 
-  @OneToMany(() => Price, price => price.station)
+  @OneToMany(() => Price, price => price.station, { eager: true })
   prices: Price[];
 }
