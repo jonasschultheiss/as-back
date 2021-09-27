@@ -1,5 +1,6 @@
 import { InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Price } from 'src/prices/price.entity';
+import { Product } from 'src/products/product.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateStationDto } from './dto/create-station.dto';
 import { PatchStationDto } from './dto/patch-station.dto';
@@ -7,7 +8,7 @@ import { Station } from './station.entity';
 
 @EntityRepository(Station)
 export class StationsRepository extends Repository<Station> {
-  async createStation(createStationDto: CreateStationDto, prices: Price[]): Promise<Station> {
+  async createStation(createStationDto: CreateStationDto, prices: Price[], products: Product[]): Promise<Station> {
     const { name, address, city, latitude, longitude } = createStationDto;
 
     const station = new Station();
@@ -16,7 +17,9 @@ export class StationsRepository extends Repository<Station> {
     station.city = city;
     station.latitude = latitude;
     station.longitude = longitude;
+
     station.prices = prices;
+    station.products = products;
 
     try {
       await station.save();

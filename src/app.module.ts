@@ -5,6 +5,8 @@ import configuration from './config/configuration';
 import { StationsModule } from './stations/stations.module';
 import { AuthModule } from './auth/auth.module';
 import { PricesModule } from './prices/prices.module';
+import { ProductsModule } from './products/products.module';
+import { PointsModule } from './points/points.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { PricesModule } from './prices/prices.module';
     StationsModule,
     AuthModule,
     PricesModule,
+    ProductsModule,
+    PointsModule,
   ],
 })
 export class AppModule {}
