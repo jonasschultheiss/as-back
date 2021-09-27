@@ -13,7 +13,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { CreateStationDto } from './dto/create-station.dto';
 import { PatchStationDto } from './dto/patch-station.dto';
-import { Station } from './model.entity';
+import { Station } from './station.entity';
 import { StationsService } from './stations.service';
 
 @UseGuards(AuthGuard('api-key'))
