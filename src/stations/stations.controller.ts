@@ -11,12 +11,18 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiHeader, ApiSecurity } from '@nestjs/swagger';
 import { CreateStationDto } from './dto/create-station.dto';
 import { PatchStationDto } from './dto/patch-station.dto';
 import { Station } from './station.entity';
 import { StationsService } from './stations.service';
 
 @UseGuards(AuthGuard('api-key'))
+@ApiHeader({
+  name: 'X-API-KEY',
+  description: 'API-Key Header',
+})
+@ApiSecurity('API-KEY')
 @Controller('stations')
 export class StationsController {
   constructor(private readonly stationsService: StationsService) {}

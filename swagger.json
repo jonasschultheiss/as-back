@@ -1,0 +1,85 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/stations": {
+      "post": {
+        "operationId": "StationsController_create",
+        "parameters": [
+          { "name": "X-API-KEY", "in": "header", "description": "API-Key Header", "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateStationDto" } } }
+        },
+        "responses": { "201": { "description": "" } },
+        "security": [{ "API-KEY": [] }]
+      },
+      "get": {
+        "operationId": "StationsController_findAll",
+        "parameters": [
+          { "name": "X-API-KEY", "in": "header", "description": "API-Key Header", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "security": [{ "API-KEY": [] }]
+      }
+    },
+    "/api/v1/stations/{id}": {
+      "get": {
+        "operationId": "StationsController_findOne",
+        "parameters": [
+          { "name": "X-API-KEY", "in": "header", "description": "API-Key Header", "schema": { "type": "string" } },
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "number" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "security": [{ "API-KEY": [] }]
+      },
+      "patch": {
+        "operationId": "StationsController_updateOne",
+        "parameters": [
+          { "name": "X-API-KEY", "in": "header", "description": "API-Key Header", "schema": { "type": "string" } },
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "number" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PatchStationDto" } } }
+        },
+        "responses": { "200": { "description": "" } },
+        "security": [{ "API-KEY": [] }]
+      },
+      "delete": {
+        "operationId": "StationsController_deleteOne",
+        "parameters": [
+          { "name": "X-API-KEY", "in": "header", "description": "API-Key Header", "schema": { "type": "string" } },
+          { "name": "id", "required": true, "in": "path", "schema": { "type": "number" } }
+        ],
+        "responses": { "200": { "description": "" } },
+        "security": [{ "API-KEY": [] }]
+      }
+    }
+  },
+  "info": { "title": "Fuel Stations", "description": "Api Doc for fuel stations", "version": "1.0", "contact": {} },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateStationDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "address": { "type": "string" },
+          "city": { "type": "string" },
+          "latitude": { "type": "number" },
+          "longitude": { "type": "number" },
+          "prices": { "type": "array", "items": { "type": "string" } },
+          "products": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["name", "address", "city", "latitude", "longitude", "prices", "products"]
+      },
+      "PatchStationDto": {
+        "type": "object",
+        "properties": { "name": { "type": "string" }, "prices": { "type": "array", "items": { "type": "string" } } },
+        "required": ["name", "prices"]
+      }
+    }
+  }
+}
